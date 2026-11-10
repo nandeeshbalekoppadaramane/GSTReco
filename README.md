@@ -17,15 +17,15 @@ Sample templates are included in the repo (`sample_gstr2b.xlsx`, `sample_tally.x
 
 ## Matching logic
 
-Records are matched on **Invoice Number + GSTIN + Date + Taxable Value**, and every row lands in exactly one output sheet:
+Records are matched on **Invoice Number + GSTIN + Date + Taxable Value**, and processed rows are excluded from later matching stages using `S.No`. Use unique serial numbers in each input. The workbook includes non-empty result sheets:
 
 | Sheet | Meaning |
 |---|---|
-| Matched | All four keys match |
-| Only in GSTR-2B | Not found in the Tally file at all |
-| Only in Tally | Not found in GSTR-2B at all |
-| Value mismatch | Invoice found, but taxable/tax values differ |
-| Partial match | Invoice number matches, but GSTIN or date differs |
+| Matched Invoices | All four keys match; invoice/tax amounts can still differ and are shown as differences |
+| GSTR2B Only | Not found in the Tally file at all |
+| Tally Only | Not found in GSTR-2B at all |
+| Value Mismatched | Invoice number, GSTIN and date match, but taxable value differs |
+| Not Matching | Invoice number matches, but GSTIN or date differs |
 
 ## Run
 
@@ -43,5 +43,5 @@ Dependencies: `streamlit`, `pandas`, `openpyxl`.
 ## Notes
 
 - The sample template files must sit next to the script for the sidebar download buttons to appear (the reconciliation itself works without them).
-- Everything runs locally; no data leaves your machine.
-- Private project.
+- When run locally, uploads are processed by the local Streamlit server. A hosted deployment processes uploads on its host.
+- Personal project.
